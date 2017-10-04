@@ -14,6 +14,7 @@
 #include <iomanip>
 #pragma comment(lib, "setupapi.lib")
 using namespace std;
+#define BUFFERSIZE 4000
 
 void deviceInfoDataSize(SP_DEVINFO_DATA& DeviceInfoData) {
 	 DeviceInfoData.cbSize = sizeof(SP_DEVINFO_DATA);
@@ -31,7 +32,7 @@ HDEVINFO getDeviceInfoSet() {
 }
 
 void getInfoPCI(SP_DEVINFO_DATA DeviceInfoData, HDEVINFO deviceInfoSet) {
-	TCHAR buffer[4000];
+	TCHAR buffer[BUFFERSIZE];
 	for (int i = 0; SetupDiEnumDeviceInfo(deviceInfoSet, i++, &DeviceInfoData);) {
 		SP_DEVINFO_DATA deviceInfoData;
 		ZeroMemory(&deviceInfoData, sizeof(SP_DEVINFO_DATA));
@@ -66,10 +67,12 @@ void findInFile(string DEV, string VEN) {
 		string str;
 		getline(file, str);
 		if ((int)str.find(VEN) != -1) {
+			cout << "VEN " << VEN << endl;
 			cout << str << endl;
 			while (file) {
 				getline(file, str);
 				if ((int)str.find(DEV) != -1) {
+					cout << "DEV " << DEV << endl;
 					cout << str << endl;
 					break;
 				}
