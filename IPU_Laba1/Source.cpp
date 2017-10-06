@@ -54,7 +54,7 @@ void getInfoPCI(SP_DEVINFO_DATA DeviceInfoData, HDEVINFO deviceInfoSet) {
 		tempVEN[4] = '\0';
 		string DEV = tempDev;
 		string VEN = tempVEN;
-		std::cout << std::endl << "#" << i << " " << endl;
+		std::cout << std::endl << "#" << i << endl;
 		findInFile(DEV, VEN);
 		}
 	
@@ -66,20 +66,21 @@ void findInFile(string DEV, string VEN) {
 
 		string str;
 		getline(file, str);
-		if ((int)str.find(VEN) != -1) {
+		if ((int)str.find(VEN) != -1 && (int)str.find(VEN) ==  0) {
 			cout << "VEN " << VEN << endl;
-			cout << str << endl;
+			str.erase(str.begin(), str.begin() + 4);
+			cout << "VEN_NAME:" << str << endl;
 			while (file) {
 				getline(file, str);
-				if ((int)str.find(DEV) != -1) {
+				if ((int)str.find(DEV) != -1 && (int)str.find(DEV) == 1) {
 					cout << "DEV " << DEV << endl;
-					cout << str << endl;
+					str.erase(str.begin(), str.begin() + 5);
+					cout << "DEV_NAME:" << str << endl;
 					break;
 				}
 			}
 			break;
 		}
-
 	}
 }
 
